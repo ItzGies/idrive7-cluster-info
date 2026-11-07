@@ -106,26 +106,6 @@ module.exports = {
         })
       },
 
-      // Subtle centre instrument surround
-      {
-        key:'v8InstrumentSurround',
-        kind:'panel',
-        x:195,y:48,w:1530,h:475,
-        z:-4,
-        params:{u_box:[35,1,0.25,1]},
-        colors:()=>({
-          top:'#171A20',
-          bottom:'#0C0E12',
-          border:'#242831'
-        })
-      },
-
-      // OEM-style metallic separator lines
-      C.flat('v8TopAccent',245,60,1430,2,'bezel2'),
-      C.flat('v8LowerAccent',205,610,1510,2,'bezel2'),
-
-
-
       // V6: dark cockpit side panels
       {
         key:'v6LeftPanel',kind:'panel',
@@ -166,16 +146,16 @@ module.exports = {
         d=>C.distText(o,d.frange),white),
 
       // Right-side hybrid information
-      C.text('v6ElectricLabel',1745,195,150,24,
+      C.text('v6ElectricLabel',1655,195,150,24,
         'E-RANGE',muted),
-      C.text('v6ElectricValue',1742,231,150,40,
+      C.text('v6ElectricValue',1652,231,150,40,
         C.focus.range(o),blue),
 
-      C.flat('v6RightRule',1751,293,128,2,'bezel2'),
+      C.flat('v6RightRule',1661,293,128,2,'bezel2'),
 
-      C.text('v6PowerLabel',1745,317,150,24,
+      C.text('v6PowerLabel',1655,317,150,24,
         'E-POWER',muted),
-      C.text('v6PowerValue',1742,355,150,42,
+      C.text('v6PowerValue',1652,355,150,42,
         C.kwText,blue),
 
 
