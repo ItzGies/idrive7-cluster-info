@@ -386,5 +386,9 @@
         ]
       ]
     }
-  ]
+  ],
+  "requires": {
+    "idrive7-renderd": "2.1.7",
+    "mgu-inputgate": "1.0.0"
+  }
 }

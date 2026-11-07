@@ -8,16 +8,44 @@
 > or misuse of anything in this repository. **I do not recommend that anyone try this on their own vehicle**; if
 > you do, you do so entirely at your own risk.
 
-# Cluster Info
+# iDrive 7 cluster apps
 
-An app for the BMW iDrive 7 head unit (MGU): a small panel of up to three live values over the Waze map in the
-instrument cluster or on the HUD, and turn signal arrows on the HUD. It works with
-[Waze on cluster](https://github.com/eroobeeroo/idrive-apps), which puts the map there.
+Four apps for the BMW iDrive 7 head unit (MGU), by eroobeeroo. **They are free: if you paid for one, ask for a
+refund.**
 
-What it shows, its settings and how other apps can give it values are in
+| App | What it does |
+|---|---|
+| **[Cluster Info](#cluster-info)** | a small panel of live values over the Waze map in the cluster or on the HUD, and turn signal arrows on the HUD |
+| **[Cluster Layouts](apps/cluster_layouts/README.md)** | your own layout on the whole instrument cluster, drawn by the cluster itself: seven layouts, each in three colour sets and with three centres |
+| **[Cluster Centre](apps/cluster_centre/README.md)** | the factory cluster kept, its centre taken over by pages of live data (temperatures, fuel and boost, warm-up, turbo cool-down, xDrive, eDrive, a 0-60 timer, custom pages) |
+| **[Home Link](apps/cluster_layouts/README.md#home-link-apple-home)** | the car's charge, fuel, ranges, charging and arrivals in Apple Home, through Homebridge on a computer at home |
+
+![Cluster Layouts: Analog sport](docs/analog_sport.png)
+
+## Installing
+
+Add this repository as a source in the [MGU Store](https://github.com/robertnisipeanu/mgu-store) and install the
+apps you want; the head unit builds each one from source. They also need:
+
+- **[eroobeeroo/idrive7-apps](https://github.com/eroobeeroo/idrive7-apps) as a source too.** The apps require its
+  GPU renderer (`idrive7-renderd`) and controller gate (`mgu-inputgate`), and the Store installs them from there.
+  That repository also has **eDrive Live**, which shares the battery's power and temperature with these apps.
+- **[eroobeeroo/idrive-apps](https://github.com/eroobeeroo/idrive-apps)**: Waze on cluster, the map Cluster Info
+  sits on, and the cluster renderer (`cluster-render`) that Cluster Layouts and Cluster Centre draw with.
+- **For Home Link:** Homebridge with the X5 Link plugin on a computer at home
+  ([homebridge/homebridge-x5-link](homebridge/homebridge-x5-link/README.md)).
+
+Cluster Info is in eroobeeroo/idrive7-apps as well. Install it from only one of the two: if both are installed,
+the Store adds the second beside the first as a separate app (`cluster_info2`).
+
+## Cluster Info
+
+A small panel of up to three live values over the Waze map in the instrument cluster or on the HUD, and turn
+signal arrows on the HUD. It works with [Waze on cluster](https://github.com/eroobeeroo/idrive-apps), which puts
+the map there. What it shows, its settings and how other apps can give it values are in
 [apps/cluster_info/README.md](apps/cluster_info/README.md).
 
-## What it looks like
+### What it looks like
 
 ![Cluster Info's panel at the bottom of the Waze map in the instrument cluster](docs/cluster.jpg)
 
@@ -33,30 +61,20 @@ What it shows, its settings and how other apps can give it values are in
 
 (Street names in the photos are blurred.)
 
-## Installing
-
-Add this repository as a source in the [MGU Store](https://github.com/robertnisipeanu/mgu-store); the head unit
-builds the app from it. It also needs:
-
-- **[eroobeeroo/idrive7-apps](https://github.com/eroobeeroo/idrive7-apps) as a source too.** Cluster Info
-  requires its GPU renderer (`idrive7-renderd`) and controller gate (`mgu-inputgate`), and the Store installs them
-  from there. That repository also has **eDrive Live**, which provides the battery's power (the kW meter) and
-  temperature.
-- **[Waze on cluster](https://github.com/eroobeeroo/idrive-apps)** for the map the panel sits on.
-
-Cluster Info is in eroobeeroo/idrive7-apps as well. Install it from only one of the two: if both are installed,
-the Store adds the second beside the first as a separate app (`cluster_info2`).
-
 ## Repository layout
 
 | Path | What |
 |---|---|
-| `apps/cluster_info/` | the app: `main.js` (its page), `overlay.js` (the panel over the map), `providers.js` (values from other apps), `indicators.js` (turn signals and day / night), `cluster_render_client.js` (the cluster renderer's protocol), `app.json` (manifest, signals and settings) |
-| `kit/runtime/` | the app kit's runtime the build bundles into the app (canvas, fonts, gauges, themes, settings, the controller and renderer clients) |
-| `kit/platform/`, `kit/localization/` | the package's permissions and the Chinese build's credit |
-| `kit/tools/build.py` | builds the app package (with `pack_data.py`, `localize.py`, `make_icon.js`, `oapgen/`) |
-| `kit/tools/test_*.js` | the tests |
-| `mgu-repo.json` | tells the Store how to build the app and what it requires |
+| `apps/cluster_info/` | Cluster Info: `main.js` (its page), `overlay.js` (the panel over the map), `providers.js` (values from other apps), `indicators.js` (turn signals and day / night), `cluster_render_client.js` (the cluster renderer's protocol), `app.json` (manifest, signals and settings) |
+| `apps/cluster_layouts/`, `apps/cluster_centre/`, `apps/home_link/` | the other three apps; each holds its own copy of the shared files it uses |
+| `shared/` | the code those three share (the cluster engine and shaders, car data, fonts, the clock, logs, the signed credit); `node tools/sync_shared.js` copies it into each app |
+| `tools/` | their tests, the cluster previews (`preview.js`, `preview_centre.js`), the font baker and the credit signer |
+| `homebridge/homebridge-x5-link/` | Home Link's Homebridge plugin |
+| `kit/runtime/` | the app kit's runtime the build bundles into each app (canvas, fonts, gauges, themes, settings, the controller and renderer clients) |
+| `kit/platform/`, `kit/localization/` | the packages' permissions and the Chinese build's credit |
+| `kit/tools/build.py` | builds an app package (with `pack_data.py`, `localize.py`, `make_icon.js`, `oapgen/`) |
+| `kit/tools/test_*.js` | Cluster Info's and the kit's tests |
+| `mgu-repo.json` | tells the Store how to build the apps; each app's `app.json` says what it requires |
 
 ## Development
 
@@ -66,20 +84,26 @@ The tests need Node.js only (no SDK, renderer or car):
 node kit/tools/test_runtime.js
 node kit/tools/test_cluster_info_overlay.js
 node kit/tools/test_cluster_info.js
+for t in engine app centre data finder home_link logs providers shared signals; do node tools/test_$t.js; done
 ```
 
-`python3 kit/tools/build.py cluster_info` builds the package into `dist/`. It needs BMW's oap-sdk in `oap-sdk/`,
-taken from your own head unit (see eroobeeroo/idrive7-apps, `kit/tools/extract_sdk.js`). The SDK and the built
-packages, which contain it, are never committed. The Store builds on the head unit with the unit's own SDK.
+After changing anything in `shared/`, run `node tools/sync_shared.js`. `python3 kit/tools/build.py <app id>` builds a
+package into `dist/`, and `node tools/test_built.js` starts each built app on the kit's stubbed head unit. Both need
+BMW's oap-sdk in `oap-sdk/`, taken from your own head unit (see eroobeeroo/idrive7-apps,
+`kit/tools/extract_sdk.js`). The SDK and the built packages, which contain it, are never committed. The Store
+builds on the head unit with the unit's own SDK.
 
 ## License
 
-Copyright (C) 2026 eroobeeroo. GPL-3.0-or-later ([LICENSE](LICENSE)): anyone who distributes this app, or a changed
-version of it, must make its full source available under the same license.
+Copyright (C) 2026 eroobeeroo. GPL-3.0-or-later ([LICENSE](LICENSE)): anyone who distributes these apps, or changed
+versions of them, must make their full source available under the same license. That covers everything here except
+the parts below, which keep their own licenses.
 
-The app kit (`kit/`) is from [cauliflowermossgrape/idrive7-apps](https://github.com/cauliflowermossgrape/idrive7-apps)
-through eroobeeroo/idrive7-apps, where Cluster Info was written; that code is also available under its MIT license
-([LICENSE-MIT](LICENSE-MIT)), which stays with it. Cluster Info versions published in eroobeeroo/idrive7-apps before
-this repository remain under the MIT license they were published with. The Chinese translation's credit is in
-[NOTICE.zh-CN.md](NOTICE.zh-CN.md); the bundled Noto Sans SC glyphs are under the SIL Open Font License 1.1
-(`kit/runtime/fonts/OFL-NotoSansSC.txt`).
+- The app kit (`kit/`) is from [cauliflowermossgrape/idrive7-apps](https://github.com/cauliflowermossgrape/idrive7-apps)
+  through eroobeeroo/idrive7-apps, under its MIT license ([LICENSE-MIT](LICENSE-MIT), `kit/LICENSE`). Cluster Info
+  was written there; versions of it published in eroobeeroo/idrive7-apps before this repository remain under the MIT
+  license they were published with.
+- The cluster renderer's Node client (`cluster_render_client.js`) is by Robert Nisipeanu, MPL-2.0, as its header says.
+- Fonts: the cluster apps' Barlow Semi Condensed atlases and the bundled Noto Sans SC glyphs are under the SIL Open
+  Font License 1.1 (`shared/NOTICE`, `kit/runtime/fonts/OFL-NotoSansSC.txt`).
+- The Chinese translation's credit is in [NOTICE.zh-CN.md](NOTICE.zh-CN.md). More in [NOTICE.md](NOTICE.md).

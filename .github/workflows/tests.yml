@@ -1,6 +1,6 @@
 name: Tests
 
-# The kit runtime and Cluster Info against stand-ins (no SDK, renderer or car needed).
+# The kit runtime and all four apps against stand-ins (no SDK, renderer or car needed).
 on:
   push:
   pull_request:
@@ -19,3 +19,9 @@ jobs:
       - run: node kit/tools/test_runtime.js
       - run: node kit/tools/test_cluster_info_overlay.js
       - run: node kit/tools/test_cluster_info.js
+      # Cluster Layouts, Cluster Centre and Home Link; test_shared checks the apps' copies of shared/ are current
+      # (tools/test_built.js needs the SDK, so it runs locally only)
+      - run: |
+          for t in engine app centre data finder home_link logs providers shared signals; do
+            echo "== tools/test_$t.js"; node tools/test_$t.js
+          done

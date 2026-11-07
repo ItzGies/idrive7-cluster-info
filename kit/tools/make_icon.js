@@ -23,6 +23,13 @@ if (glyph === 'gauge') {
     c.line(70, 76, nx, ny, 6, W);
     c.circle(70, 76, 9, W);
     c.fillRect(44, 112, 52, 6, W);
+} else if (glyph === 'home') {
+    // a house with a car's signal arcs in it
+    c.line(18, 66, 70, 22, 7, W); c.line(70, 22, 122, 66, 7, W);
+    c.line(32, 60, 32, 118, 7, W); c.line(108, 60, 108, 118, 7, W); c.line(32, 118, 108, 118, 7, W);
+    c.arc(70, 104, 30, 36, -50, 50, A, { round: true });
+    c.arc(70, 104, 16, 22, -50, 50, A, { round: true });
+    c.circle(70, 104, 5, W);
 } else if (glyph === 'flag') {
     // stopwatch + launch flag
     c.arc(62, 78, 38, 46, 0, 360, W);
