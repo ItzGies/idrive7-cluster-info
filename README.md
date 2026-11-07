@@ -17,6 +17,22 @@ instrument cluster or on the HUD, and turn signal arrows on the HUD. It works wi
 What it shows, its settings and how other apps can give it values are in
 [apps/cluster_info/README.md](apps/cluster_info/README.md).
 
+## What it looks like
+
+![Cluster Info's panel at the bottom of the Waze map in the instrument cluster](docs/cluster.jpg)
+
+*In the instrument cluster: the battery's power with its bar (recuperating, in green), battery and oil temperature.*
+
+![Cluster Info's panel on the head-up display, right of the speed](docs/hud.jpg)
+
+*On the HUD: battery charge, battery and oil temperature, right of the HUD's own speed readout.*
+
+![The panel's variations and colour themes](docs/panels.png)
+
+*The panel as the app draws it, at twice its size on the cluster: what it can show, and its four colour themes.*
+
+(Street names in the photos are blurred.)
+
 ## Installing
 
 Add this repository as a source in the [MGU Store](https://github.com/robertnisipeanu/mgu-store); the head unit
