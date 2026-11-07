@@ -19,6 +19,11 @@ jobs:
       - run: node kit/tools/test_runtime.js
       - run: node kit/tools/test_cluster_info_overlay.js
       - run: node kit/tools/test_cluster_info.js
+      # test_logs decodes the Logs screen's QR codes from simulated photos with OpenCV
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install opencv-python-headless==4.10.0.84
       # Cluster Layouts, Cluster Centre and Home Link; test_shared checks the apps' copies of shared/ are current
       # (tools/test_built.js needs the SDK, so it runs locally only)
       - run: |
