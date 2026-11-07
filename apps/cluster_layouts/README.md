@@ -1,6 +1,6 @@
 # Cluster Layouts
 
-*Part of [iDrive 7 cluster apps](../../README.md), with Cluster Info, [Cluster Centre](../cluster_centre/README.md) and Home Link (below).*
+*Part of [iDrive 7 cluster apps](../../README.md), with Cluster Info and [Cluster Centre](../cluster_centre/README.md).*
 
 Custom layouts for the whole instrument cluster of a BMW with iDrive 7 (MGU), **drawn by the cluster
 itself**. Seven original layouts (Analog sport, Digital round, Modern wide, Digital dash, Freedom, Retro and
@@ -106,19 +106,6 @@ the drive) and the drive's peak power (or boost), and the ranges and charge righ
 | ![](../../docs/track_sport.png) |
 
 *(Drawn by `tools/preview.js` from the same shaders the cluster runs; the map is a stand-in for the real one.)*
-
-## Home Link (Apple Home)
-
-A third app, **Home Link**, puts the car in Apple Home through Homebridge on a computer at home
-([`homebridge/homebridge-x5-link`](../../homebridge/homebridge-x5-link/README.md), the plugin). While the head unit is on and joined to the home Wi-Fi, it finds
-the plugin on the network by itself (every address on port 8582; nothing typed in the car), and sends charge,
-fuel, ranges and temperatures every 5 s, signed with the pairing code its page shows. The plugin makes them
-HomeKit sensors (keeping the last values while the car is away) and adds **Arrived** (came into Wi-Fi range
-driving), **Started** (came on at home) and **Leaving** (drove out of range) for automations, and while the car
-charges (its head unit stays on) **Charging**, **Charge Power** and **Charge Done**. The battery's
-charge comes from eDrive Live when it shares, else from a few seconds of battery reads on reaching home and
-every 5 minutes while in range (Settings > Battery charge readings). Nothing connects into the car: the head
-unit only makes outgoing connections. `tools/test_home_link.js` runs the car's side against the plugin.
 
 ## Readings and where they come from
 

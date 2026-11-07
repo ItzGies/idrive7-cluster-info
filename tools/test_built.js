@@ -20,7 +20,7 @@ process.on('unhandledRejection', (e) => failures.push(String(e && e.stack || e))
 process.on('uncaughtException', (e) => failures.push(String(e && e.stack || e)));
 
 (async () => {
-    for (const id of ['cluster_layouts', 'cluster_centre', 'home_link']) {
+    for (const id of ['cluster_layouts', 'cluster_centre']) {
         execFileSync('python3', [path.join(ROOT, 'kit', 'tools', 'build.py'), id], { cwd: ROOT, stdio: 'pipe' });
         const { headUnit } = require(path.join(ROOT, 'kit', 'tools', 'hu-stub.js'));
         let images = 0;
@@ -35,18 +35,12 @@ process.on('uncaughtException', (e) => failures.push(String(e && e.stack || e)))
         for (let i = 0; i < 4 && hu.handlers.BTN_SIGNALS; i++) { const before = images; await hu.handlers.BTN_SIGNALS(); if (hu.loopFn) await hu.loopFn('MAIN'); assert(images > before, id + ': Signals page ' + (i + 1) + ' drew nothing'); }
         // Logs: the QR pages draw, then back to the status
         for (let i = 0; i < 5 && hu.handlers.BTN_LOGS; i++) { const before = images; await hu.handlers.BTN_LOGS(); if (hu.loopFn) await hu.loopFn('MAIN'); assert(images > before, id + ': Logs page ' + (i + 1) + ' drew nothing'); }
-        // Home Link: online through the uplink (package.json mguInternet), its buttons draw
-        if (id === 'home_link') {
-            const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'dist', id, 'source', 'package.json'), 'utf8'));
-            assert.strictEqual(pkg.mguInternet, true, 'home_link: not marked for the internet');
-            for (const b of ['BTN_FIND', 'BTN_CODE']) { const before = images; await hu.handlers[b](); if (hu.loopFn) await hu.loopFn('MAIN'); assert(images > before, id + ': ' + b + ' drew nothing'); }
-        }
         if (hu.handlers.BTN_NEXT) { await hu.handlers.BTN_NEXT(); if (hu.loopFn) await hu.loopFn('MAIN'); }
         console.log = origLog; console.warn = origWarn;
         assert(images > 0, id + ': its screen drew nothing');
         console.log('ok   ' + id + ': built, started on the stubbed head unit, its screen drew (' + images + ' frames)');
     }
     assert.strictEqual(failures.length, 0, failures.join('\n'));
-    console.log('3 passed');
+    console.log('2 passed');
     process.exit(0);
 })().catch((e) => { console.error(e); process.exit(1); });

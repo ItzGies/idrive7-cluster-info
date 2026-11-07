@@ -10,7 +10,7 @@
 
 # iDrive 7 cluster apps
 
-Four apps for the BMW iDrive 7 head unit (MGU), by eroobeeroo. **They are free: if you paid for one, ask for a
+Three apps for the BMW iDrive 7 head unit (MGU), by eroobeeroo. **They are free: if you paid for one, ask for a
 refund.**
 
 | App | What it does |
@@ -18,7 +18,6 @@ refund.**
 | **[Cluster Info](#cluster-info)** | a small panel of live values over the Waze map in the cluster or on the HUD, and turn signal arrows on the HUD |
 | **[Cluster Layouts](apps/cluster_layouts/README.md)** | your own layout on the whole instrument cluster, drawn by the cluster itself: seven layouts, each in three colour sets and with three centres |
 | **[Cluster Centre](apps/cluster_centre/README.md)** | the factory cluster kept, its centre taken over by pages of live data (temperatures, fuel and boost, warm-up, turbo cool-down, xDrive, eDrive, a 0-60 timer, custom pages) |
-| **[Home Link](apps/cluster_layouts/README.md#home-link-apple-home)** | the car's charge, fuel, ranges, charging and arrivals in Apple Home, through Homebridge on a computer at home |
 
 ![Cluster Layouts: Analog sport](docs/analog_sport.png)
 
@@ -32,8 +31,6 @@ apps you want; the head unit builds each one from source. They also need:
   That repository also has **eDrive Live**, which shares the battery's power and temperature with these apps.
 - **[eroobeeroo/idrive-apps](https://github.com/eroobeeroo/idrive-apps)**: Waze on cluster, the map Cluster Info
   sits on, and the cluster renderer (`cluster-render`) that Cluster Layouts and Cluster Centre draw with.
-- **For Home Link:** Homebridge with the X5 Link plugin on a computer at home
-  ([homebridge/homebridge-x5-link](homebridge/homebridge-x5-link/README.md)).
 
 Cluster Info is in eroobeeroo/idrive7-apps as well. Install it from only one of the two: if both are installed,
 the Store adds the second beside the first as a separate app (`cluster_info2`).
@@ -66,10 +63,9 @@ the map there. What it shows, its settings and how other apps can give it values
 | Path | What |
 |---|---|
 | `apps/cluster_info/` | Cluster Info: `main.js` (its page), `overlay.js` (the panel over the map), `providers.js` (values from other apps), `indicators.js` (turn signals and day / night), `cluster_render_client.js` (the cluster renderer's protocol), `app.json` (manifest, signals and settings) |
-| `apps/cluster_layouts/`, `apps/cluster_centre/`, `apps/home_link/` | the other three apps; each holds its own copy of the shared files it uses |
-| `shared/` | the code those three share (the cluster engine and shaders, car data, fonts, the clock, logs, the signed credit); `node tools/sync_shared.js` copies it into each app |
+| `apps/cluster_layouts/`, `apps/cluster_centre/` | the other two apps; each holds its own copy of the shared files it uses |
+| `shared/` | the code those two share (the cluster engine and shaders, car data, fonts, the clock, logs, the signed credit); `node tools/sync_shared.js` copies it into each app |
 | `tools/` | their tests, the cluster previews (`preview.js`, `preview_centre.js`), the font baker and the credit signer |
-| `homebridge/homebridge-x5-link/` | Home Link's Homebridge plugin |
 | `kit/runtime/` | the app kit's runtime the build bundles into each app (canvas, fonts, gauges, themes, settings, the controller and renderer clients) |
 | `kit/platform/`, `kit/localization/` | the packages' permissions and the Chinese build's credit |
 | `kit/tools/build.py` | builds an app package (with `pack_data.py`, `localize.py`, `make_icon.js`, `oapgen/`) |
@@ -84,7 +80,7 @@ The tests need Node.js only (no SDK, renderer or car):
 node kit/tools/test_runtime.js
 node kit/tools/test_cluster_info_overlay.js
 node kit/tools/test_cluster_info.js
-for t in engine app centre data finder home_link logs providers shared signals; do node tools/test_$t.js; done
+for t in engine app centre data finder logs providers shared signals; do node tools/test_$t.js; done
 ```
 
 After changing anything in `shared/`, run `node tools/sync_shared.js`. `python3 kit/tools/build.py <app id>` builds a
