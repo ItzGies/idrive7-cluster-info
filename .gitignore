@@ -1,0 +1,10 @@
+# BMW's SDK: extracted from your own head unit, never committed
+oap-sdk
+# build output: every package contains BMW's SDK, so don't publish these either
+dist/
+*.mgu
+*.tgz
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
