@@ -56,9 +56,14 @@ node kit/tools/test_cluster_info.js
 taken from your own head unit (see eroobeeroo/idrive7-apps, `kit/tools/extract_sdk.js`). The SDK and the built
 packages, which contain it, are never committed. The Store builds on the head unit with the unit's own SDK.
 
-## Origin and license
+## License
+
+Copyright (C) 2026 eroobeeroo. GPL-3.0-or-later ([LICENSE](LICENSE)): anyone who distributes this app, or a changed
+version of it, must make its full source available under the same license.
 
 The app kit (`kit/`) is from [cauliflowermossgrape/idrive7-apps](https://github.com/cauliflowermossgrape/idrive7-apps)
-through eroobeeroo/idrive7-apps, where Cluster Info was written. MIT licensed: see [LICENSE](LICENSE). The Chinese
-translation's credit is in [NOTICE.zh-CN.md](NOTICE.zh-CN.md); the bundled Noto Sans SC glyphs are under the SIL Open
-Font License 1.1 (`kit/runtime/fonts/OFL-NotoSansSC.txt`).
+through eroobeeroo/idrive7-apps, where Cluster Info was written; that code is also available under its MIT license
+([LICENSE-MIT](LICENSE-MIT)), which stays with it. Cluster Info versions published in eroobeeroo/idrive7-apps before
+this repository remain under the MIT license they were published with. The Chinese translation's credit is in
+[NOTICE.zh-CN.md](NOTICE.zh-CN.md); the bundled Noto Sans SC glyphs are under the SIL Open Font License 1.1
+(`kit/runtime/fonts/OFL-NotoSansSC.txt`).
